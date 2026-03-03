@@ -33,7 +33,9 @@ def __next__(self):
     return pow(self.b, self.state, self.p) & ((1 << 1024) - 1)
 ```
 So written mathematically (with $s$ as state and $o$ as output):
+
 $s_{n+1} = a^{s_n} \mod p$ 
+
 $o = b^{s_{n+1}} \mod p$, keeping only the lowest 1024 bits, since p is 1040 bits this means we lose 16 bits of data.
 
 ## Solution
