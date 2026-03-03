@@ -16,7 +16,7 @@ Totally normal office traffic. Definitely not a leak.
 
 ## Challenge files
 
-[capture.pcap](capture.pcap)
+[capture.pcap](files/capture.pcap)
 
 ## Solution
 

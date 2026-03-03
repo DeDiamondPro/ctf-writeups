@@ -18,7 +18,7 @@ Ow, did I forget to give you the key?
 
 ## Challenge files
 
-[server.py](server.py), private (server side) file: [file.gif](file.gif)
+[server.py](server.py), private (server side) file: [file.gif](private/file.gif)
 
 ## Observations
 
