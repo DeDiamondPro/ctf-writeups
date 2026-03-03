@@ -1,0 +1,19 @@
+baseURL = 'https://ctf-writeups.dediamondpro.dev'
+languageCode = 'en-us'
+title = "CTF Writeups"
+theme = "PaperMod"
+
+[taxonomies]
+  tag = "tags"
+
+[params]
+  ShowToc = true
+  author = "DeDiamondPro"
+  ShowBreadCrumbs = true
+  math = true
+  [params.footer]
+    hideCopyright = true
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'

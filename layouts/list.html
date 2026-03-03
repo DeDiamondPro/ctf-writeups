@@ -1,0 +1,67 @@
+{{- define "main" }}
+<div class="post-single">
+  <div class="post-content">
+    <h1>{{ .Title }}</h1>
+    <p>{{ .Description }}</p>
+
+    {{- /* 1. Collect all unique first tags */ -}}
+    {{- $firstTags := slice -}}
+    {{- range .Pages.ByDate -}}
+      {{- if and .Params.tags (gt (len .Params.tags) 0) -}}
+        {{- $tag := index .Params.tags 0 -}}
+        {{- if not (in $firstTags $tag) -}}
+          {{- $firstTags = $firstTags | append $tag -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- /* 2. Render sections grouped by those sorted tags */ -}}
+    {{- range sort $firstTags -}}
+      {{- $currentTag := . -}}
+      
+      <h3>
+        <a href="{{ "/tags/" | relURL }}{{ $currentTag | urlize }}">{{ $currentTag | title }}</a>
+      </h3>
+      <ul>
+        {{- range $.Pages.ByDate -}}
+          {{- if and .Params.tags (gt (len .Params.tags) 0) -}}
+            {{- if eq (index .Params.tags 0) $currentTag -}}
+            <li>
+              <a href="{{ .Permalink }}">{{ .Title }}</a>
+              
+              {{- /* Skip the first tag using "after 1" */ -}}
+              {{- range after 1 .Params.tags }}
+              <a href="{{ "/tags/" | relURL }}{{ . | urlize }}"><code>{{ . }}</code></a>
+              {{- end }}
+              
+            </li>
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      </ul>
+    {{- end -}}
+
+    {{- /* 3. (Optional) Catch any pages that have no tags */ -}}
+    {{- $hasUntagged := false -}}
+    {{- range .Pages.ByDate -}}
+      {{- if or (not .Params.tags) (eq (len .Params.tags) 0) -}}
+        {{- $hasUntagged = true -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- if $hasUntagged -}}
+      <h3>Untagged</h3>
+      <ul>
+        {{- range .Pages.ByDate -}}
+          {{- if or (not .Params.tags) (eq (len .Params.tags) 0) -}}
+          <li>
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          </li>
+          {{- end -}}
+        {{- end -}}
+      </ul>
+    {{- end -}}
+
+  </div>
+</div>
+{{- end }}

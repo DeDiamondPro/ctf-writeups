@@ -1,0 +1,24 @@
+{{- define "main" }}
+<div class="post-single">
+  <div class="post-content">
+    <h1>Tag: {{ .Title }}</h1>
+    
+    {{- if .Description }}
+    <p>{{ .Description }}</p>
+    {{- end }}
+
+    <ul>
+      {{- /* Use ByDate.Reverse to show the newest posts first */ -}}
+      {{- range .Pages.ByDate.Reverse }}
+      <li>
+        <a href="{{ .Permalink }}">{{ .Title }}</a>
+        
+        {{- /* Optional: Show the post date so users know how old it is */ -}}
+        <small> ({{ .Date.Format "Jan 2, 2006" }})</small>
+      </li>
+      {{- end }}
+    </ul>
+    
+  </div>
+</div>
+{{- end }}
