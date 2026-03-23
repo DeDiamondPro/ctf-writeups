@@ -1,20 +1,33 @@
 {{- define "main" }}
 <div class="post-single">
   <div class="post-content">
-    <h1>Tag: {{ .Title }}</h1>
+    <h1>{{ .Title }}</h1>
     
     {{- if .Description }}
     <p>{{ .Description }}</p>
     {{- end }}
 
+    {{- $termSlug := .Data.Term | urlize }}
     <ul>
-      {{- /* Use ByDate.Reverse to show the newest posts first */ -}}
       {{- range .Pages.ByDate.Reverse }}
       <li>
         <a href="{{ .Permalink }}">{{ .Title }}</a>
-        
-        {{- /* Optional: Show the post date so users know how old it is */ -}}
-        <small> ({{ .Date.Format "Jan 2, 2006" }})</small>
+
+        {{- with .Parent }}
+        — <a href="{{ .Permalink }}"><small>{{ .Title }}</small></a>
+        {{- end }}
+
+        {{- $hasOtherTags := false }}
+        {{- range .Params.tags }}{{- if ne (. | urlize) $termSlug }}{{- $hasOtherTags = true }}{{- end }}{{- end }}
+        {{- if and .Parent $hasOtherTags }} —{{- end }}
+
+        {{- range .Params.tags }}
+          {{- if ne (. | urlize) $termSlug }}
+          <a href="{{ "/tags/" | relURL }}{{ . | urlize }}"><code>{{ . }}</code></a>
+          {{- end }}
+        {{- end }}
+
+        <small>({{ .Date.Format "Jan 2, 2006" }})</small>
       </li>
       {{- end }}
     </ul>
