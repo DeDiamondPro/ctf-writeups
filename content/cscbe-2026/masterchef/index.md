@@ -94,8 +94,6 @@ set the parameters.
 Now all we need is to set the payload to something like `/bin/sh`, but the program blocks this. Fortunately after calling
 `strings masterchef` we see the string `/ashbins/`, which we can shift to our target payload using the `use_mixer` gadget.
 
-Now the offset of our payload is 
-
 ## Solution script
 
 ```py
